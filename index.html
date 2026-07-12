@@ -7,312 +7,342 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,700;1,500&family=Dancing+Script:wght@600;700&family=Nunito+Sans:wght@300;400;600&display=swap" rel="stylesheet">
 <style>
-  :root{
-    --night-deep:#1B1330;
-    --night-mid:#2A1F45;
-    --gold:#E8B86D;
-    --blush:#F2A9BE;
-    --cream:#F7F1E8;
-    --lavender:#9C8FC4;
+  :root {
+    --night-deep: #130d22;
+    --night-mid: #221838;
+    --gold: #f4c47f;
+    --blush: #f8b4c4;
+    --cream: #faf5ee;
+    --lavender: #aba0d4;
   }
 
-  *{margin:0;padding:0;box-sizing:border-box;}
+  * { margin: 0; padding: 0; box-sizing: border-box; }
 
-  html{scroll-behavior:smooth;}
+  html { scroll-behavior: smooth; }
 
-  body{
-    background:var(--night-deep);
-    color:var(--cream);
-    font-family:'Nunito Sans', sans-serif;
-    font-weight:300;
-    overflow-x:hidden;
-  }
-
-  @media (prefers-reduced-motion: reduce){
-    *{animation-duration:0.001ms !important; animation-iteration-count:1 !important; transition-duration:0.001ms !important;}
+  body {
+    background: var(--night-deep);
+    color: var(--cream);
+    font-family: 'Nunito Sans', sans-serif;
+    font-weight: 300;
+    overflow-x: hidden;
   }
 
-  /* ---------- Starfield background, shared ---------- */
-  .stars{
-    position:fixed;
-    top:0;left:0;width:100%;height:100%;
-    z-index:0;
-    pointer-events:none;
-  }
-  .star{
-    position:absolute;
-    width:2px;height:2px;
-    background:var(--cream);
-    border-radius:50%;
-    opacity:0.6;
-    animation:twinkle 4s ease-in-out infinite;
-  }
-  @keyframes twinkle{
-    0%,100%{opacity:0.15;}
-    50%{opacity:0.9;}
+  @media (prefers-reduced-motion: reduce) {
+    * { animation-duration: 0.001ms !important; animation-iteration-count: 1 !important; transition-duration: 0.001ms !important; }
   }
 
-  section{
-    position:relative;
-    min-height:100vh;
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-    justify-content:center;
-    padding:6vh 6vw;
-    z-index:1;
-    text-align:center;
+  /* Starfield Background */
+  .stars {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    z-index: 0;
+    pointer-events: none;
+  }
+  .star {
+    position: absolute;
+    background: var(--cream);
+    border-radius: 50%;
+    opacity: 0.6;
+    animation: twinkle 4s ease-in-out infinite;
+  }
+  @keyframes twinkle {
+    0%, 100% { opacity: 0.15; transform: scale(0.8); }
+    50% { opacity: 0.9; transform: scale(1.2); }
   }
 
-  .eyebrow{
-    font-family:'Dancing Script', cursive;
-    font-size:clamp(1.4rem, 3vw, 2rem);
-    color:var(--blush);
-    letter-spacing:0.02em;
+  section {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 8vh 6vw;
+    z-index: 1;
+    text-align: center;
   }
 
-  h1{
-    font-family:'Playfair Display', serif;
-    font-weight:700;
-    font-size:clamp(2.4rem, 7vw, 5rem);
-    line-height:1.05;
-    margin:0.4em 0;
+  .eyebrow {
+    font-family: 'Dancing Script', cursive;
+    font-size: clamp(1.6rem, 3.5vw, 2.4rem);
+    color: var(--blush);
+    letter-spacing: 0.02em;
+    margin-bottom: 0.5rem;
   }
 
-  .name{
-    color:var(--gold);
-    font-style:italic;
+  h1 {
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+    font-size: clamp(2.6rem, 7.5vw, 5.5rem);
+    line-height: 1.1;
+    margin: 0.3em 0;
+    letter-spacing: -0.01em;
   }
 
-  p.lead{
-    max-width:520px;
-    font-size:clamp(1rem, 1.6vw, 1.2rem);
-    line-height:1.7;
-    color:var(--lavender);
+  .name {
+    color: var(--gold);
+    font-style: italic;
+    position: relative;
+    display: inline-block;
   }
 
-  /* scroll cue */
-  .scroll-cue{
-    margin-top:4rem;
-    font-size:0.85rem;
-    letter-spacing:0.15em;
-    text-transform:uppercase;
-    color:var(--lavender);
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-    gap:0.5rem;
-    animation:float 2.4s ease-in-out infinite;
-  }
-  .scroll-cue span{
-    width:1px;height:32px;
-    background:linear-gradient(to bottom, var(--gold), transparent);
-  }
-  @keyframes float{
-    0%,100%{transform:translateY(0);}
-    50%{transform:translateY(8px);}
+  p.lead {
+    max-width: 560px;
+    font-size: clamp(1.05rem, 1.8vw, 1.3rem);
+    line-height: 1.8;
+    color: var(--lavender);
+    margin-top: 1rem;
   }
 
-  /* ---------- Section: Welcome ---------- */
-  #welcome h1{opacity:0; animation:reveal 1.6s ease forwards 0.4s;}
-  #welcome .eyebrow{opacity:0; animation:reveal 1.2s ease forwards 0.1s;}
-  #welcome .lead{opacity:0; animation:reveal 1.6s ease forwards 1s;}
-  #welcome .scroll-cue{opacity:0; animation:reveal 1.6s ease forwards 1.8s;}
-  @keyframes reveal{
-    from{opacity:0; transform:translateY(16px);}
-    to{opacity:1; transform:translateY(0);}
+  /* Scroll Cue */
+  .scroll-cue {
+    margin-top: 5rem;
+    font-size: 0.8rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--lavender);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.8rem;
+    animation: float 2.5s ease-in-out infinite;
+  }
+  .scroll-cue span {
+    width: 2px; height: 40px;
+    background: linear-gradient(to bottom, var(--gold), transparent);
+    border-radius: 2px;
+  }
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(10px); }
   }
 
-  /* ---------- Section: Letter ---------- */
-  #letter{
-    background:linear-gradient(180deg, var(--night-deep), var(--night-mid));
-  }
-  .letter-card{
-    background:var(--cream);
-    color:#332B45;
-    max-width:600px;
-    width:100%;
-    padding:clamp(2rem, 5vw, 3.5rem);
-    border-radius:4px;
-    box-shadow:0 30px 60px -20px rgba(0,0,0,0.6);
-    font-family:'Playfair Display', serif;
-    font-size:clamp(1rem, 1.6vw, 1.2rem);
-    line-height:1.9;
-    text-align:left;
-    position:relative;
-    opacity:0;
-    transform:translateY(30px) rotate(-1deg);
-    transition:opacity 1s ease, transform 1s ease;
-  }
-  .letter-card.in-view{
-    opacity:1;
-    transform:translateY(0) rotate(-0.6deg);
-  }
-  .letter-card .sign{
-    font-family:'Dancing Script', cursive;
-    font-size:1.6rem;
-    color:#8A6B3F;
-    margin-top:1.5rem;
-    display:block;
-  }
-  .letter-title{
-    font-family:'Dancing Script', cursive;
-    font-size:2rem;
-    color:var(--gold);
-    margin-bottom:1.5rem;
+  /* Section: Welcome Animations */
+  #welcome h1 { opacity: 0; animation: reveal 1.6s cubic-bezier(0.16, 1, 0.3, 1) forwards 0.4s; }
+  #welcome .eyebrow { opacity: 0; animation: reveal 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards 0.1s; }
+  #welcome .lead { opacity: 0; animation: reveal 1.6s cubic-bezier(0.16, 1, 0.3, 1) forwards 0.8s; }
+  #welcome .scroll-cue { opacity: 0; animation: reveal 1.6s cubic-bezier(0.16, 1, 0.3, 1) forwards 1.4s; }
+  @keyframes reveal {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
   }
 
-  /* ---------- Section: Memories ---------- */
-  #memories{background:var(--night-mid);}
-  .gallery{
-    display:flex;
-    flex-wrap:wrap;
-    justify-content:center;
-    gap:2.2rem;
-    margin-top:3rem;
-    max-width:900px;
+  /* Section: Letter */
+  #letter {
+    background: linear-gradient(180deg, var(--night-deep), var(--night-mid));
   }
-  .polaroid{
-    background:var(--cream);
-    padding:14px 14px 44px 14px;
-    width:220px;
-    box-shadow:0 20px 40px -12px rgba(0,0,0,0.5);
-    color:#332B45;
-    font-family:'Dancing Script', cursive;
-    font-size:1.1rem;
-    text-align:center;
-    opacity:0;
-    transform:translateY(30px);
-    transition:opacity 0.8s ease, transform 0.8s ease;
+  .letter-card {
+    background: var(--cream);
+    color: #2b253a;
+    max-width: 650px;
+    width: 100%;
+    padding: clamp(2.5rem, 6vw, 4.5rem);
+    border-radius: 12px;
+    box-shadow: 0 40px 80px -30px rgba(0,0,0,0.7), 0 0 40px rgba(244,196,127,0.05);
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.05rem, 1.7vw, 1.3rem);
+    line-height: 2;
+    text-align: left;
+    position: relative;
+    opacity: 0;
+    transform: translateY(40px) rotate(-1.5deg);
+    transition: opacity 1.2s cubic-bezier(0.16, 1, 0.3, 1), transform 1.2s cubic-bezier(0.16, 1, 0.3, 1);
   }
+  .letter-card.in-view {
+    opacity: 1;
+    transform: translateY(0) rotate(-0.5deg);
+  }
+  .letter-card::before {
+    content: "♥";
+    position: absolute;
+    top: 2rem; right: 2.5rem;
+    font-size: 1.5rem;
+    color: var(--blush);
+    opacity: 0.5;
+  }
+  .letter-card p { margin-bottom: 1.5rem; }
+  .letter-card p:last-of-type { margin-bottom: 0; }
+  .letter-card .sign {
+    font-family: 'Dancing Script', cursive;
+    font-size: 1.8rem;
+    color: #785a30;
+    margin-top: 2.5rem;
+    display: block;
+    text-align: right;
+  }
+  .letter-title {
+    font-family: 'Dancing Script', cursive;
+    font-size: 2.4rem;
+    color: #785a30;
+    margin-bottom: 2rem;
+  }
+
+  /* Section: Memories */
+  #memories { background: var(--night-mid); padding-bottom: 12vh; }
+  .gallery {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 3rem;
+    margin-top: 4rem;
+    max-width: 1000px;
+    width: 100%;
+    padding: 0 1rem;
+  }
+  .polaroid {
+    background: var(--cream);
+    padding: 16px 16px 40px 16px;
+    box-shadow: 0 25px 50px -15px rgba(0,0,0,0.6);
+    color: #332B45;
+    font-family: 'Dancing Script', cursive;
+    font-size: 1.3rem;
+    text-align: center;
+    opacity: 0;
+    transform: translateY(50px) scale(0.95);
+    transition: opacity 1s cubic-bezier(0.16, 1, 0.3, 1), transform 1s cubic-bezier(0.16, 1, 0.3, 1);
+    border-radius: 2px;
+  }
+  .polaroid.in-view { opacity: 1; transform: translateY(0) scale(1); }
+  
+  /* Charming Professional scattered rotations */
+  .polaroid:nth-child(6n+1) { transform: translateY(50px) rotate(-2deg); }
+  .polaroid:nth-child(6n+2) { transform: translateY(50px) rotate(3deg); }
+  .polaroid:nth-child(6n+3) { transform: translateY(50px) rotate(-3deg); }
+  .polaroid:nth-child(6n+4) { transform: translateY(50px) rotate(2deg); }
+  .polaroid:nth-child(6n+5) { transform: translateY(50px) rotate(-1.5deg); }
+  .polaroid:nth-child(6n+6) { transform: translateY(50px) rotate(2.5deg); }
+  
+  .polaroid:nth-child(6n+1).in-view { transform: rotate(-1.5deg); }
+  .polaroid:nth-child(6n+2).in-view { transform: rotate(2deg); }
+  .polaroid:nth-child(6n+3).in-view { transform: rotate(-2.5deg); }
+  .polaroid:nth-child(6n+4).in-view { transform: rotate(1.5deg); }
+  .polaroid:nth-child(6n+5).in-view { transform: rotate(-1deg); }
+  .polaroid:nth-child(6n+6).in-view { transform: rotate(2deg); }
+  
+  .polaroid:hover {
+    transform: scale(1.05) rotate(0deg) !important;
+    box-shadow: 0 35px 60px -10px rgba(0,0,0,0.7);
+    z-index: 10;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
   .polaroid-frame {
-  width: 180px;
-  height: 180px;
-}
+    width: 100%;
+    aspect-ratio: 1/1;
+    background: linear-gradient(135deg, var(--lavender), var(--blush));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    border-radius: 2px;
+  }
+  .polaroid-frame img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+  }
+  .polaroid:hover .polaroid-frame img {
+    transform: scale(1.06);
+  }
+  .polaroid p { margin-top: 15px; color: #433a54; font-weight: 600; }
 
-.polaroid-frame img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
+  /* Section: Surprise */
+  #surprise { background: linear-gradient(180deg, var(--night-mid), var(--night-deep)); }
+  .gift-wrap {
+    cursor: pointer;
+    border: none;
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.1rem, 2vw, 1.4rem);
+    font-weight: 700;
+    color: var(--night-deep);
+    background: linear-gradient(135deg, var(--gold), #fcdca3);
+    padding: 1.2rem 3rem;
+    border-radius: 60px;
+    box-shadow: 0 15px 40px -10px rgba(244,196,127,0.4);
+    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.3s ease;
+    letter-spacing: 0.02em;
+    margin-top: 2rem;
+    animation: buttonPulse 2s infinite;
+  }
+  @keyframes buttonPulse {
+    0%, 100% { box-shadow: 0 15px 40px -10px rgba(244,196,127,0.4); }
+    50% { box-shadow: 0 15px 45px 2px rgba(244,196,127,0.65); }
+  }
+  .gift-wrap:hover {
+    transform: translateY(-4px) scale(1.04);
+    animation-play-state: paused;
+  }
+  .gift-wrap:active { transform: scale(0.97); }
 
-  .polaroid.in-view{opacity:1; transform:translateY(0);}
-  .polaroid:nth-child(1){transition-delay:0.05s;}
-  .polaroid:nth-child(2){transition-delay:0.2s;}
-  .polaroid:nth-child(3){transition-delay:0.35s;}
-  .polaroid:nth-child(4){transition-delay:0.5s;}
-  .polaroid-frame{
-    width:100%;
-    aspect-ratio:1/1;
-    background:linear-gradient(135deg, var(--lavender), var(--blush));
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    color:rgba(255,255,255,0.85);
-    font-family:'Nunito Sans', sans-serif;
-    font-size:0.8rem;
-    font-weight:400;
-    letter-spacing:0.05em;
+  #surprise .reveal-text {
+    margin-top: 2rem;
+    max-width: 580px;
+    opacity: 0;
+    max-height: 0;
+    overflow: hidden;
+    transition: opacity 1.2s cubic-bezier(0.16, 1, 0.3, 1), max-height 1.2s cubic-bezier(0.16, 1, 0.3, 1);
   }
-  .polaroid p{margin-top:10px;}
-  .memories-note{
-    margin-top:2.5rem;
-    max-width:480px;
-    font-size:0.9rem;
-    color:var(--lavender);
-    font-style:italic;
+  #surprise .reveal-text.shown {
+    opacity: 1;
+    max-height: 1000px;
   }
-
-  /* ---------- Section: Surprise ---------- */
-  #surprise{background:linear-gradient(180deg, var(--night-mid), var(--night-deep));}
-  .gift-wrap{
-    cursor:pointer;
-    border:none;
-    background:none;
-    font-family:'Playfair Display', serif;
-    font-size:clamp(1.1rem, 2vw, 1.4rem);
-    color:var(--night-deep);
-    background:var(--gold);
-    padding:1.1rem 2.4rem;
-    border-radius:60px;
-    box-shadow:0 15px 40px -10px rgba(232,184,109,0.5);
-    transition:transform 0.25s ease, box-shadow 0.25s ease;
-    letter-spacing:0.02em;
+  #surprise .reveal-text h2 {
+    font-family: 'Dancing Script', cursive;
+    font-size: clamp(2.4rem, 6vw, 3.5rem);
+    color: var(--blush);
+    margin-bottom: 1.5rem;
   }
-  .gift-wrap:hover{
-    transform:translateY(-3px) scale(1.03);
-    box-shadow:0 20px 50px -8px rgba(232,184,109,0.65);
-  }
-  .gift-wrap:active{transform:scale(0.97);}
-
-  #surprise .reveal-text{
-    margin-top:3rem;
-    max-width:560px;
-    opacity:0;
-    max-height:0;
-    overflow:hidden;
-    transition:opacity 1s ease;
-  }
-  #surprise .reveal-text.shown{
-    opacity:1;
-    max-height:1000px;
-  }
-  #surprise .reveal-text h2{
-    font-family:'Dancing Script', cursive;
-    font-size:clamp(2rem, 5vw, 3rem);
-    color:var(--blush);
-    margin-bottom:1rem;
-  }
-  #surprise .reveal-text p{
-    color:var(--cream);
-    font-size:1.05rem;
-    line-height:1.8;
+  #surprise .reveal-text p {
+    color: var(--cream);
+    font-size: 1.1rem;
+    line-height: 1.9;
   }
 
-  .confetti-piece{
-    position:fixed;
-    top:-10px;
-    z-index:50;
-    border-radius:2px;
-    pointer-events:none;
+  /* Confetti Styles */
+  .confetti-piece {
+    position: fixed;
+    top: -10px;
+    z-index: 100;
+    pointer-events: none;
+    border-radius: 50%;
   }
-  @keyframes fall{
-    to{ transform:translateY(110vh) rotate(540deg); opacity:0.9; }
-  }
-
-  /* ---------- Section: Final wish ---------- */
-  #final{
-    background:var(--night-deep);
-  }
-  #heart-canvas{
-    width:min(320px, 70vw);
-    height:min(280px, 60vw);
-    margin-bottom:1rem;
-  }
-  #final h2{
-    font-family:'Dancing Script', cursive;
-    font-size:clamp(2.4rem, 6vw, 3.6rem);
-    color:var(--gold);
-    margin-top:1rem;
-  }
-  #final p.final-line{
-    max-width:480px;
-    margin-top:1rem;
-    color:var(--lavender);
-    font-size:1.05rem;
-    line-height:1.8;
-  }
-  footer{
-    margin-top:3rem;
-    font-size:0.75rem;
-    letter-spacing:0.1em;
-    color:rgba(247,241,232,0.35);
-    text-transform:uppercase;
+  @keyframes fall {
+    0% { transform: translateY(-5vh) rotate(0deg); opacity: 1; }
+    100% { transform: translateY(105vh) rotate(720deg); opacity: 0; }
   }
 
-  :focus-visible{
-    outline:2px solid var(--gold);
-    outline-offset:3px;
+  /* Section: Final Wish */
+  #final { background: var(--night-deep); padding-bottom: 4vh; }
+  #heart-canvas {
+    width: min(340px, 75vw);
+    height: min(300px, 65vw);
+    margin-bottom: 1.5rem;
+  }
+  #final h2 {
+    font-family: 'Dancing Script', cursive;
+    font-size: clamp(2.6rem, 6.5vw, 4rem);
+    color: var(--gold);
+    margin-top: 1rem;
+  }
+  #final p.final-line {
+    max-width: 500px;
+    margin-top: 1.2rem;
+    color: var(--lavender);
+    font-size: 1.1rem;
+    line-height: 1.8;
+  }
+  footer {
+    margin-top: 6rem;
+    font-size: 0.75rem;
+    letter-spacing: 0.15em;
+    color: rgba(247,241,232,0.25);
+    text-transform: uppercase;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--gold);
+    outline-offset: 3px;
   }
 </style>
 </head>
@@ -337,7 +367,6 @@
       There's a certain kind of light you bring into a room without even trying,
       and the people lucky enough to know you end up a little warmer for it.
     </p>
-    <br>
     <p>
       This year, I hope you get to see yourself the way I see you: kind without
       keeping score, strong without making noise about it, and someone whose
@@ -351,23 +380,41 @@
 
 <!-- MEMORIES -->
 <section id="memories">
-  <div class="eyebrow">  </div>
-  <h1 style="font-size:clamp(1.8rem,5vw,2.8rem);">some Great <br> memories 🌚😂</h1>
+  <div class="eyebrow">captured moments</div>
+  <h1 style="font-size:clamp(2rem, 5vw, 3.2rem);">Some Great<br>Memories 🌚😂</h1>
+  
   <div class="gallery" id="gallery">
-    <div class="polaroid"><div class="polaroid-frame"> <img src="2.jpeg" alt="old pic"></div><p>the first one</p></div>
-    <div class="polaroid"><div class="polaroid-frame"><img src="6.jpeg" alt="old pic"></div><p>the funny one</p></div>
-    <div class="polaroid"><div class="polaroid-frame"><img src="1.jpeg" alt="old pic"></div><p>the favorite</p></div>
-    <div class="polaroid"><div class="polaroid-frame"><img src="5.jpeg" alt="old pic"></div><p>looking a little bit serious</p></div>
-    <div class="polaroid"><div class="polaroid-frame"><img src="4.jpeg" alt="old pic"></div><p>no word</p></div>
-    <div class="polaroid"><div class="polaroid-frame"><img src="3.jpeg" alt="old pic"></div><p>tGbammm</p></div>
+    <div class="polaroid">
+      <div class="polaroid-frame"><img src="2.jpeg" alt="The first one"></div>
+      <p>the first one</p>
+    </div>
+    <div class="polaroid">
+      <div class="polaroid-frame"><img src="6.jpeg" alt="The funny one"></div>
+      <p>the funny one</p>
+    </div>
+    <div class="polaroid">
+      <div class="polaroid-frame"><img src="1.jpeg" alt="The favorite"></div>
+      <p>the favorite</p>
+    </div>
+    <div class="polaroid">
+      <div class="polaroid-frame"><img src="5.jpeg" alt="Looking serious"></div>
+      <p>looking a bit serious</p>
+    </div>
+    <div class="polaroid">
+      <div class="polaroid-frame"><img src="4.jpeg" alt="No words"></div>
+      <p>no words</p>
+    </div>
+    <div class="polaroid">
+      <div class="polaroid-frame"><img src="3.jpeg" alt="tGbammm"></div>
+      <p>tGbammm</p>
+    </div>
   </div>
-
 </section>
 
 <!-- SURPRISE -->
 <section id="surprise">
   <div class="eyebrow">one more thing</div>
-  <h1 style="font-size:clamp(1.8rem,5vw,2.8rem);">There's a gift<br>waiting</h1>
+  <h1 style="font-size:clamp(2rem, 5vw, 3.2rem);">There's a gift<br>waiting</h1>
   <button class="gift-wrap" id="giftBtn">🎁 Open your gift</button>
   <div class="reveal-text" id="revealText">
     <h2>Surprise!</h2>
@@ -388,109 +435,129 @@
 </section>
 
 <script>
-  // ---------- Starfield ----------
+  // Starfield Setup
   const starsContainer = document.getElementById('stars');
-  const STAR_COUNT = 90;
-  for(let i=0;i<STAR_COUNT;i++){
+  const STAR_COUNT = 110;
+  for(let i=0; i<STAR_COUNT; i++) {
     const s = document.createElement('div');
-    s.className='star';
-    s.style.left = Math.random()*100+'%';
-    s.style.top = Math.random()*100+'%';
-    s.style.animationDelay = (Math.random()*4)+'s';
-    const size = Math.random()*2+1;
-    s.style.width = size+'px';
-    s.style.height = size+'px';
+    s.className = 'star';
+    s.style.left = Math.random() * 100 + '%';
+    s.style.top = Math.random() * 100 + '%';
+    s.style.animationDelay = (Math.random() * 4) + 's';
+    const size = Math.random() * 2 + 1;
+    s.style.width = size + 'px';
+    s.style.height = size + 'px';
     starsContainer.appendChild(s);
   }
 
-  // ---------- Scroll reveal for letter & polaroids ----------
-  const observer = new IntersectionObserver((entries)=>{
-    entries.forEach(entry=>{
-      if(entry.isIntersecting){
+  // Beautiful Scroll Reveal Animations
+  const observerOptions = { threshold: 0.15, rootMargin: "0px 0px -50px 0px" };
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if(entry.isIntersecting) {
         entry.target.classList.add('in-view');
       }
     });
-  }, {threshold:0.25});
+  }, observerOptions);
 
-  document.querySelectorAll('.letter-card, .polaroid').forEach(el=>observer.observe(el));
+  document.querySelectorAll('.letter-card, .polaroid').forEach(el => observer.observe(el));
 
-  // ---------- Gift / confetti ----------
+  // Confetti Engine
   const giftBtn = document.getElementById('giftBtn');
   const revealText = document.getElementById('revealText');
-  const colors = ['#E8B86D','#F2A9BE','#9C8FC4','#F7F1E8'];
+  const colors = ['#f4c47f', '#f8b4c4', '#aba0d4', '#faf5ee', '#ffdde4'];
 
-  function launchConfetti(){
-    const count = 90;
-    for(let i=0;i<count;i++){
+  function launchConfetti() {
+    const count = 120;
+    for(let i=0; i<count; i++) {
       const piece = document.createElement('div');
-      piece.className='confetti-piece';
-      const size = Math.random()*8+5;
-      piece.style.width = size+'px';
-      piece.style.height = size*0.4+'px';
-      piece.style.left = Math.random()*100+'vw';
-      piece.style.background = colors[Math.floor(Math.random()*colors.length)];
-      const duration = Math.random()*2+2.5;
-      piece.style.animation = `fall ${duration}s ease-in forwards`;
-      piece.style.animationDelay = (Math.random()*0.4)+'s';
+      piece.className = 'confetti-piece';
+      
+      const size = Math.random() * 8 + 6;
+      const isCircle = Math.random() > 0.5;
+      
+      piece.style.width = size + 'px';
+      piece.style.height = (isCircle ? size : size * 0.5) + 'px';
+      piece.style.borderRadius = isCircle ? '50%' : '2px';
+      piece.style.left = Math.random() * 100 + 'vw';
+      piece.style.background = colors[Math.floor(Math.random() * colors.length)];
+      
+      const duration = Math.random() * 2 + 2.5;
+      piece.style.animation = `fall ${duration}s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards`;
+      piece.style.animationDelay = (Math.random() * 0.4) + 's';
+      
       document.body.appendChild(piece);
-      setTimeout(()=>piece.remove(), (duration+1)*1000);
+      setTimeout(() => piece.remove(), (duration + 0.5) * 1000);
     }
   }
 
-  giftBtn.addEventListener('click', ()=>{
+  giftBtn.addEventListener('click', () => {
     launchConfetti();
     revealText.classList.add('shown');
-    giftBtn.style.display='none';
+    giftBtn.style.display = 'none';
   });
 
-  // ---------- Heart constellation on final screen ----------
-  function heartPoint(t){
-    // parametric heart curve, t in [0, 2*PI]
-    const x = 16*Math.pow(Math.sin(t),3);
-    const y = 13*Math.cos(t) - 5*Math.cos(2*t) - 2*Math.cos(3*t) - Math.cos(4*t);
-    return {x, y};
+  // Smooth Heart Constellation Vectors
+  function heartPoint(t) {
+    const x = 16 * Math.pow(Math.sin(t), 3);
+    const y = 13 * Math.cos(t) - 5 * Math.cos(2*t) - 2 * Math.cos(3*t) - Math.cos(4*t);
+    return { x, y };
   }
 
   const svg = document.getElementById('heart-canvas');
-  const numPoints = 26;
+  const numPoints = 30;
   const pts = [];
-  for(let i=0;i<numPoints;i++){
-    const t = (i/numPoints)*Math.PI*2;
+  
+  for(let i=0; i<numPoints; i++) {
+    const t = (i / numPoints) * Math.PI * 2;
     const p = heartPoint(t);
-    pts.push({x: 150 + p.x*8, y: 140 - p.y*8});
+    pts.push({ x: 150 + p.x * 8, y: 135 - p.y * 8 });
   }
 
-  // lines connecting consecutive points, drawn progressively
-  pts.forEach((p, i)=>{
-    const next = pts[(i+1)%pts.length];
-    const line = document.createElementNS('http://www.w3.org/2000/svg','line');
+  pts.forEach((p, i) => {
+    const next = pts[(i + 1) % pts.length];
+    
+    // Draw lines paths cleanly
+    const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
     line.setAttribute('x1', p.x); line.setAttribute('y1', p.y);
     line.setAttribute('x2', next.x); line.setAttribute('y2', next.y);
-    line.setAttribute('stroke', '#E8B86D');
-    line.setAttribute('stroke-width', '1');
-    line.setAttribute('stroke-opacity', '0.5');
-    line.style.strokeDasharray = '1';
-    line.style.strokeDashoffset = '1';
-    line.style.transition = `stroke-dashoffset 0.4s ease ${i*0.05}s`;
+    line.setAttribute('stroke', '#f4c47f');
+    line.setAttribute('stroke-width', '1.5');
+    line.setAttribute('stroke-opacity', '0.6');
+    
+    // Precise dash array computation for premium draw animation
+    const dx = next.x - p.x;
+    const dy = next.y - p.y;
+    const length = Math.sqrt(dx*dx + dy*dy);
+    line.style.strokeDasharray = length;
+    line.style.strokeDashoffset = length;
+    line.style.transition = `stroke-dashoffset 0.6s cubic-bezier(0.4, 0, 0.2, 1) ${i * 0.04}s`;
     svg.appendChild(line);
 
-    const dot = document.createElementNS('http://www.w3.org/2000/svg','circle');
+    // Glowing coordinate dots
+    const dot = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
     dot.setAttribute('cx', p.x); dot.setAttribute('cy', p.y);
-    dot.setAttribute('r', 2.4);
-    dot.setAttribute('fill', '#F2A9BE');
-    dot.style.opacity = 0;
-    dot.style.transition = `opacity 0.3s ease ${i*0.05}s`;
+    dot.setAttribute('r', 2.5);
+    dot.setAttribute('fill', '#f8b4c4');
+    dot.style.opacity = '0';
+    dot.style.transform = 'scale(0)';
+    dot.style.transformOrigin = `${p.x}px ${p.y}px`;
+    dot.style.transition = `opacity 0.4s ease ${i * 0.04}s, transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) ${i * 0.04}s`;
     svg.appendChild(dot);
   });
 
-  const finalObserver = new IntersectionObserver((entries)=>{
-    entries.forEach(entry=>{
-      if(entry.isIntersecting){
-        svg.querySelectorAll('line').forEach(l=>l.style.strokeDashoffset='0');
-        svg.querySelectorAll('circle').forEach(c=>c.style.opacity='1');
+  const finalObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if(entry.isIntersecting) {
+        svg.querySelectorAll('line').forEach(l => l.style.strokeDashoffset = '0');
+        svg.querySelectorAll('circle').forEach(c => {
+          c.style.opacity = '1';
+          c.style.transform = 'scale(1)';
+        });
       }
     });
-  }, {threshold:0.4});
+  }, { threshold: 0.5 });
+  
   finalObserver.observe(document.getElementById('final'));
 </script>
 
