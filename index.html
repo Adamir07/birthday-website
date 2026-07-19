@@ -18,8 +18,11 @@
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
 
-  html { scroll-behavior: smooth; }
-
+  /* Locked initial state; unlocked via JS on target date */
+  html { 
+    scroll-behavior: smooth; 
+    overflow: hidden; 
+  }
   body {
     background: var(--night-deep);
     color: var(--cream);
@@ -95,14 +98,124 @@
     margin-top: 1rem;
   }
 
-  /* Scroll Cue */
+  /* Countdown Engine Styles */
+  .countdown-container {
+    margin-top: 2.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+    z-index: 2;
+    opacity: 0;
+    animation: reveal 1.6s cubic-bezier(0.16, 1, 0.3, 1) forwards 1.1s;
+  }
+  .countdown-title {
+    font-family: 'Dancing Script', cursive;
+    color: var(--blush);
+    font-size: clamp(1.3rem, 2.5vw, 1.8rem);
+    letter-spacing: 0.05em;
+  }
+  #countdown {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+  }
+  .time-block {
+    background: rgba(34, 24, 56, 0.6);
+    border: 1px solid rgba(244, 196, 127, 0.2);
+    padding: 0.6rem 1rem;
+    border-radius: 8px;
+    min-width: 70px;
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+  }
+  .time-block span {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.4rem, 3vw, 1.8rem);
+    font-weight: 700;
+    color: var(--gold);
+    display: block;
+  }
+  .time-block p {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--lavender);
+    margin-top: 2px;
+  }
+
+  /* Unlock Entry CTA Button */
+  .enter-btn {
+    cursor: pointer;
+    border: 1px solid rgba(244,196,127,0.4);
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem;
+    color: var(--gold);
+    background: rgba(34, 24, 56, 0.8);
+    padding: 1rem 3rem;
+    border-radius: 4px;
+    backdrop-filter: blur(8px);
+    box-shadow: 0 15px 40px rgba(0,0,0,0.5);
+    transition: all 0.4s ease;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-top: 1.5rem;
+    display: none;
+  }
+  .enter-btn:hover {
+    background: var(--gold);
+    color: var(--night-deep);
+    box-shadow: 0 0 25px rgba(244,196,127,0.4);
+    transform: translateY(-2px);
+  }
+
+  /* Floating Audio Interface (Hidden until unlocked) */
+  #music-toggle {
+    position: fixed;
+    bottom: 25px;
+    right: 25px;
+    width: 46px;
+    height: 46px;
+    border-radius: 50%;
+    background: rgba(250, 245, 238, 0.12);
+    border: 1px solid rgba(244, 196, 127, 0.25);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    cursor: pointer;
+    z-index: 999;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.3s ease, background 0.3s ease, border-color 0.3s ease;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+  }
+  #music-toggle:hover {
+    transform: scale(1.08);
+    background: rgba(250, 245, 238, 0.2);
+    border-color: rgba(244, 196, 127, 0.45);
+  }
+  .music-icon {
+    font-size: 1.1rem;
+    transition: transform 0.3s ease;
+    display: inline-block;
+    line-height: 1;
+  }
+  #music-toggle.playing .music-icon {
+    animation: rotateMusic 3.5s linear infinite;
+  }
+  @keyframes rotateMusic {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+
+  /* Scroll Cue (Hidden until unlocked) */
   .scroll-cue {
-    margin-top: 5rem;
+    margin-top: 4rem;
     font-size: 0.8rem;
     letter-spacing: 0.2em;
     text-transform: uppercase;
     color: var(--lavender);
-    display: flex;
+    display: none;
     flex-direction: column;
     align-items: center;
     gap: 0.8rem;
@@ -118,11 +231,21 @@
     50% { transform: translateY(10px); }
   }
 
+  /* Content Gate Container */
+  #restricted-content {
+    display: none;
+    opacity: 0;
+    transition: opacity 1.5s ease;
+  }
+  #restricted-content.unlocked {
+    display: block;
+    opacity: 1;
+  }
+
   /* Section: Welcome Animations */
   #welcome h1 { opacity: 0; animation: reveal 1.6s cubic-bezier(0.16, 1, 0.3, 1) forwards 0.4s; }
   #welcome .eyebrow { opacity: 0; animation: reveal 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards 0.1s; }
   #welcome .lead { opacity: 0; animation: reveal 1.6s cubic-bezier(0.16, 1, 0.3, 1) forwards 0.8s; }
-  #welcome .scroll-cue { opacity: 0; animation: reveal 1.6s cubic-bezier(0.16, 1, 0.3, 1) forwards 1.4s; }
   @keyframes reveal {
     from { opacity: 0; transform: translateY(24px); }
     to { opacity: 1; transform: translateY(0); }
@@ -204,7 +327,7 @@
   }
   .polaroid.in-view { opacity: 1; transform: translateY(0) scale(1); }
   
-  /* Charming Professional scattered rotations */
+  /* Scattered polaroid rotations */
   .polaroid:nth-child(6n+1) { transform: translateY(50px) rotate(-2deg); }
   .polaroid:nth-child(6n+2) { transform: translateY(50px) rotate(3deg); }
   .polaroid:nth-child(6n+3) { transform: translateY(50px) rotate(-3deg); }
@@ -236,11 +359,20 @@
     overflow: hidden;
     border-radius: 2px;
   }
+  
+  /* Anti-download security layout adjustments */
   .polaroid-frame img {
     width: 100%;
     height: 100%;
     object-fit: cover;
     transition: transform 0.5s ease;
+    -webkit-user-drag: none;
+    -khtml-user-drag: none;
+    -moz-user-drag: none;
+    -o-user-drag: none;
+    user-drag: none;
+    user-select: none;
+    -webkit-user-select: none;
   }
   .polaroid:hover .polaroid-frame img {
     transform: scale(1.06);
@@ -350,87 +482,106 @@
 
 <div class="stars" id="stars"></div>
 
-<!-- WELCOME -->
+<audio id="bg-music" loop>
+  <source src="music.mp3" type="audio/mpeg">
+</audio>
+
+<button id="music-toggle" aria-label="Toggle Background Music">
+  <span class="music-icon">🎵</span>
+</button>
+
 <section id="welcome">
   <h1>Happy Birthday,<br><span class="name">Barira</span></h1>
   <p class="lead">Once a year, the sky makes a little more room for someone worth celebrating. Today, it's you.</p>
-  <div class="scroll-cue"><span></span>scroll down</div>
-</section>
-
-<!-- LETTER -->
-<section id="letter">
-  <div class="letter-card" id="letterCard">
-    <div class="letter-title">Chère Barira,</div>
-    <p>
-      Je voulais que cette journée soit différente des autres, 
-      parce que tu l'es. Tu apportes une lumière particulière dans une pièce sans même y penser, 
-      et les personnes qui ont la chance de te connaître en ressortent un peu plus chaleureuses.
-    </p>
-    <p>
-Cette année, j'espère que tu apprendras à te voir comme je te vois : bienveillant sans vouloir te faire remarquer,
-fort sans le crier sur les toits, et quelqu'un dont laprésence discrète embellit tout. J'espère que cette année t'apportera
-      plus de raisons de sourire que de t'inquiéter, et que ce que tu recherches
-te parviendra un peu plus tôt que prévu.
-    </p>
-    <span class="sign">Happy Birthday to you. ❤️</span>
-  </div>
-</section>
-
-<!-- MEMORIES -->
-<section id="memories">
-  <div class="eyebrow">captured moments</div>
-  <h1 style="font-size:clamp(2rem, 5vw, 3.2rem);">Some Great<br>Memories 🌚😂</h1>
   
-  <div class="gallery" id="gallery">
-    <div class="polaroid">
-      <div class="polaroid-frame"><img src="2.jpeg" alt="The first one"></div>
-      <p>the first one</p>
+  <div class="countdown-container" id="countdownContainer">
+    <div class="countdown-title" id="countdownTitle">Counting down to your special day...</div>
+    <div id="countdown">
+      <div class="time-block"><span id="days">00</span><p>Days</p></div>
+      <div class="time-block"><span id="hours">00</span><p>Hours</p></div>
+      <div class="time-block"><span id="minutes">00</span><p>Mins</p></div>
+      <div class="time-block"><span id="seconds">00</span><p>Secs</p></div>
     </div>
-    <div class="polaroid">
-      <div class="polaroid-frame"><img src="6.jpeg" alt="The funniest"></div>
-      <p>the funniest</p>
-    </div>
-    <div class="polaroid">
-      <div class="polaroid-frame"><img src="1.jpeg" alt="My favorite"></div>
-      <p>My favorite</p>
-    </div>
-    <div class="polaroid">
-      <div class="polaroid-frame"><img src="5.jpeg" alt="Looking serious"></div>
-      <p>looking serious</p>
-    </div>
-    <div class="polaroid">
-      <div class="polaroid-frame"><img src="4.jpeg" alt="No words"></div>
-      <p>no words</p>
-    </div>
-    <div class="polaroid">
-      <div class="polaroid-frame"><img src="3.jpeg" alt="Gbammmmmmmm"></div>
-      <p>Gbammmmmmmmm</p>
-    </div>
+    <button class="enter-btn" id="enterBtn">✨ Enter Website ✨</button>
   </div>
+
+  <div class="scroll-cue" id="scrollCue"><span></span>scroll down</div>
 </section>
 
-<!-- SURPRISE -->
-<section id="surprise">
-  <div class="eyebrow">one more thing</div>
-  <h1 style="font-size:clamp(2rem, 5vw, 3.2rem);">There's a gift<br>waiting</h1>
-  <button class="gift-wrap" id="giftBtn">🎁 Open your gift</button>
-  <div class="reveal-text" id="revealText">
-    <h2>Surprise!</h2>
-    <p>
-      However this next year unfolds, I hope it treats you the way you treat
-      everyone else gently, generously, and with a little extra celebration
-      on the days that call for it. Consider this one of those days.
-    </p>
-  </div>
-</section>
+<div id="restricted-content">
 
-<!-- FINAL -->
-<section id="final">
-  <svg id="heart-canvas" viewBox="0 0 300 260" xmlns="http://www.w3.org/2000/svg"></svg>
-  <h2>Happy Birthday, Barira</h2>
-  <p class="final-line">Made with a little bit of care, for someone who deserves a lot more of it.</p>
-  <footer>with love — every year, again</footer>
-</section>
+  <section id="letter">
+    <div class="letter-card" id="letterCard">
+      <div class="letter-title">Chère Barira,</div>
+      <p>
+        Je voulais que cette journée soit différente des autres, 
+        parce que tu l'es. Tu apportes une lumière particulière dans une pièce sans même y penser, 
+        et les personnes qui ont la chance de te connaître en ressortent un peu plus chaleureuses.
+      </p>
+      <p>
+        Cette année, j'espère que tu apprennes à te voir comme je te vois : bienveillant sans vouloir te faire remarquer,
+        fort sans le crier sur les toits, et quelqu'un dont la présence discrète embellit tout. J'espère que cette année t'apportera
+        plus de raisons de sourire que de t'inquiéter, et que ce que tu recherches
+        te parviendra un peu plus tôt que prévu.
+      </p>
+      <span class="sign">Happy Birthday to you. ❤️</span>
+    </div>
+  </section>
+
+  <section id="memories">
+    <div class="eyebrow">captured moments</div>
+    <h1 style="font-size:clamp(2rem, 5vw, 3.2rem);">Some Great<br>Memories 🌚😂</h1>
+    
+    <div class="gallery" id="gallery">
+      <div class="polaroid">
+        <div class="polaroid-frame"><img src="2.jpeg" alt="The first one"></div>
+        <p>the first one</p>
+      </div>
+      <div class="polaroid">
+        <div class="polaroid-frame"><img src="6.jpeg" alt="The funniest"></div>
+        <p>the funniest</p>
+      </div>
+      <div class="polaroid">
+        <div class="polaroid-frame"><img src="1.jpeg" alt="My favorite"></div>
+        <p>My favorite</p>
+      </div>
+      <div class="polaroid">
+        <div class="polaroid-frame"><img src="5.jpeg" alt="Looking serious"></div>
+        <p>looking serious</p>
+      </div>
+      <div class="polaroid">
+        <div class="polaroid-frame"><img src="4.jpeg" alt="No words"></div>
+        <p>no words</p>
+      </div>
+      <div class="polaroid">
+        <div class="polaroid-frame"><img src="3.jpeg" alt="Gbammmmmmmm"></div>
+        <p>Gbammmmmmmmm</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="surprise">
+    <div class="eyebrow">one more thing</div>
+    <h1 style="font-size:clamp(2rem, 5vw, 3.2rem);">There's a gift<br>waiting</h1>
+    <button class="gift-wrap" id="giftBtn">🎁 Open your gift</button>
+    <div class="reveal-text" id="revealText">
+      <h2>Surprise!</h2>
+      <p>
+        However this next year unfolds, I hope it treats you the way you treat
+        everyone else gently, generously, and with a little extra celebration
+        on the days that call for it. Consider this one of those days.
+      </p>
+    </div>
+  </section>
+
+  <section id="final">
+    <svg id="heart-canvas" viewBox="0 0 300 260" xmlns="http://www.w3.org/2000/svg"></svg>
+    <h2>Happy Birthday, Barira</h2>
+    <p class="final-line">Made with a little bit of care, for someone who deserves a lot more of it.</p>
+    <footer>with love — every year, again</footer>
+  </section>
+
+</div>
 
 <script>
   // Starfield Setup
@@ -457,8 +608,6 @@ te parviendra un peu plus tôt que prévu.
       }
     });
   }, observerOptions);
-
-  document.querySelectorAll('.letter-card, .polaroid').forEach(el => observer.observe(el));
 
   // Confetti Engine
   const giftBtn = document.getElementById('giftBtn');
@@ -555,8 +704,111 @@ te parviendra un peu plus tôt que prévu.
       }
     });
   }, { threshold: 0.5 });
+
+
+  /* ==========================================================================
+     TIMELOCK & ENGINE FEATURES
+     ========================================================================== */
+
+  // 1. Countdown Logic Engine (Set precisely to July 20, 2026 Midnight)
+  const targetDate = new Date("July 20, 2026 00:00:00").getTime();
   
-  finalObserver.observe(document.getElementById('final'));
+  const timerBlock = document.getElementById("countdown");
+  const countdownTitle = document.getElementById("countdownTitle");
+  const enterBtn = document.getElementById("enterBtn");
+  const restrictedContent = document.getElementById("restricted-content");
+  const scrollCue = document.getElementById("scrollCue");
+  const musicToggle = document.getElementById("music-toggle");
+
+  const countdownInterval = setInterval(() => {
+    const now = new Date().getTime();
+    const difference = targetDate - now;
+
+    // When countdown reaches 0 or if the date has passed
+    if (difference <= 0) {
+      clearInterval(countdownInterval);
+      
+      // Update typography state
+      countdownTitle.innerHTML = "✨ It's Time! Your day has officially arrived. ✨";
+      countdownTitle.style.fontSize = "clamp(1.4rem, 3.5vw, 2.2rem)";
+      countdownTitle.style.textShadow = "0 0 20px var(--gold)";
+      
+      // Swap out countdown grid for the interactive Entry Token
+      timerBlock.style.display = "none";
+      enterBtn.style.display = "inline-block";
+      return;
+    }
+
+    const days = Math.floor(difference / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
+    const seconds = Math.floor((difference % (1000 * 60)) / 1000);
+
+    document.getElementById("days").innerText = days.toString().padStart(2, '0');
+    document.getElementById("hours").innerText = hours.toString().padStart(2, '0');
+    document.getElementById("minutes").innerText = minutes.toString().padStart(2, '0');
+    document.getElementById("seconds").innerText = seconds.toString().padStart(2, '0');
+  }, 1000);
+
+  // Core function to drop gates and mount site nodes
+  function unlockWebsite() {
+    // Inject visible flags
+    restrictedContent.classList.add("unlocked");
+    scrollCue.style.display = "flex";
+    musicToggle.style.display = "flex";
+    document.documentElement.style.overflow = "auto"; // Unlock document window scroll
+
+    // Mount observers for elements inside the template wrapper
+    document.querySelectorAll('.letter-card, .polaroid').forEach(el => observer.observe(el));
+    finalObserver.observe(document.getElementById('final'));
+
+    // Soft scroll presentation step down to content line
+    setTimeout(() => {
+      window.scrollBy({ top: 120, behavior: 'smooth' });
+    }, 300);
+
+    // Bootstrap music autoplay sequence immediately via user interaction link
+    playAudio();
+  }
+
+  enterBtn.addEventListener('click', unlockWebsite);
+
+
+  // 2. Anti-Download / Image Protection Hooks
+  const gallery = document.getElementById('gallery');
+  gallery.addEventListener('contextmenu', (e) => {
+    if (e.target.tagName === 'IMG') e.preventDefault();
+  });
+  gallery.addEventListener('touchstart', (e) => {
+    if (e.target.tagName === 'IMG') e.target.style.webkitTouchCallout = 'none';
+  }, { passive: true });
+
+
+  // 3. Background Music Engine
+  const music = document.getElementById('bg-music');
+  const musicBtn = document.getElementById('music-toggle');
+
+  function playAudio() {
+    music.play().then(() => {
+      musicBtn.classList.add('playing');
+    }).catch(err => {
+      console.log("Audio pipeline blocked waiting on click context interaction.", err);
+    });
+  }
+
+  function toggleMusic(e) {
+    if(e) e.stopPropagation();
+    if (music.paused) {
+      musicBtn.classList.remove('manual-pause');
+      playAudio();
+    } else {
+      music.pause();
+      musicBtn.classList.add('manual-pause');
+      musicBtn.classList.remove('playing');
+    }
+  }
+
+  musicBtn.addEventListener('click', toggleMusic);
 </script>
 
 </body>
