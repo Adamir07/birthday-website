@@ -58,6 +58,9 @@ button,input{font:inherit}
   border:1px solid var(--glass-line);background:rgba(20,8,18,.6);color:var(--ink);cursor:pointer;display:grid;place-items:center;backdrop-filter:blur(10px)}
 .sound svg{width:18px;height:18px}
 .sound[hidden]{display:none}
+.lang{position:fixed;top:calc(14px + env(safe-area-inset-top,0px));right:calc(64px + env(safe-area-inset-right,0px));z-index:101;height:42px;padding:0 6px;border-radius:999px;border:1px solid var(--glass-line);background:rgba(20,8,18,.6);color:var(--ink);cursor:pointer;display:flex;align-items:center;gap:2px;backdrop-filter:blur(10px);font-size:.78rem;font-weight:600;letter-spacing:.06em}
+.lang span{padding:6px 9px;border-radius:999px;color:var(--muted);transition:background .3s,color .3s}
+.lang span.on{background:var(--rose);color:#1a0610}
 
 /* ============ 1. LAMP ============ */
 #s-lamp{background:#050505;transition:background-color .8s ease, opacity 1s ease, visibility 0s linear 1s}
@@ -974,6 +977,7 @@ button,input{font:inherit}
   </div>
 </section>
 
+<button class="lang" id="langBtn" type="button"></button>
 <button class="sound" id="soundBtn" type="button" aria-label="Couper la musique" hidden>
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" id="soundIcon"><path d="M11 5 6 9H2v6h4l5 4V5z"/><path d="M15.5 8.5a5 5 0 0 1 0 7M19 5a10 10 0 0 1 0 14"/></svg>
 </button>
@@ -985,12 +989,32 @@ button,input{font:inherit}
 </nav>
 
 <script>
+/* ===== Language: French by default, English via the FR/EN button ===== */
+window.I18N_EN = {"Il fait tout noir ici. Tire sur la petite ficelle.": "It's dark in here. Pull the little string.", "Quelqu’un de spécial fête son anniversaire aujourd’hui.": "Someone special has a birthday today.", "Un ami qui tient énormément à toi a préparé tout ça, pièce par pièce, rien que pour toi. Dis-moi ton prénom pour l’ouvrir.": "A friend who thinks the world of you made all of this, piece by piece, just for you. Tell me your name to open it.", "Ton prénom": "Your name", "Ouvrir ma surprise": "Open my surprise", "C’est encore mieux avec le son.": "Even better with the sound on.", "Chapitre un": "Chapter one", "Chapitre deux": "Chapter two", "Chapitre trois": "Chapter three", "Chapitre quatre": "Chapter four", "Chapitre cinq": "Chapter five", "Touche le petit cœur": "Tap the little heart", "Coucou": "Hey", "Joyeux anniversaire à l’une des plus belles personnes que je connaisse 🎈": "Happy birthday to one of the best people I know 🎈", "Le monde est devenu un peu plus doux le jour où tu es née": "The world got a little kinder the day you were born", "Avec toi, les gens se sentent compris, même dans leurs pires jours": "You make people feel seen, even on their worst days", "Ton rire peut sauver une mauvaise journée. Je l’ai déjà vu": "Your laugh can fix a bad day. I've seen it happen", "Que Dieu te bénisse et t’accorde tout ce que ton cœur espère en silence 🤍": "May God bless you with everything your heart has been quietly hoping for 🤍", "J’ai tellement de chance de pouvoir t’appeler mon amie ❤️": "I'm so lucky I get to call you my friend ❤️", "Ton anniversaire, jusqu’ici": "Your birthday, so far", "Fais un vœu d’anniversaire": "Make a birthday wish", "Ferme les yeux, choisis-le bien, et envoie-le dans le ciel. Personne ne le lira, pas même moi. J’espérerai juste, en silence, qu’il se réalise.": "Close your eyes, make it count, and send it to the sky. Nobody will read it, not even me. I'll just be quietly hoping it comes true.", "Mon vœu": "My wish", "Écris d’abord un vœu ✦": "Write a wish first ✦", "Envoyé. Et si ça ne tient qu’à moi, il est déjà en train de se réaliser.": "Sent. And if it's up to me, it's already coming true.", "Des milliards d’étoiles, et aucune ne brille comme toi.": "Billions of stars, and none of them shine like you.", "Tu illumines chaque pièce où tu entres, sans même essayer.": "You light up every room you walk into, without even trying.", "Fais glisser pour explorer.": "Drag to look around.", "Un jardin rien que pour toi": "A garden, just for you", "Chaque fleur ici est un moment que tu as rendu plus beau. Touche n’importe où pour semer des cœurs.": "Every flower here is a moment you made better. Tap anywhere to scatter some hearts.", "Lire ton petit mot": "Read your note", "Faire fleurir encore": "Bloom some more", "Chère": "Dear", "Une lettre pour toi": "A letter for you", "Maintiens pour tendre l’arc, relâche pour tirer": "Hold to draw the bow, release to shoot", "Presque ! Réessaie ♡": "So close! Try again ♡", "Vise le cœur ♡": "Aim for the heart ♡", "Cupidon ne rate jamais deux fois ♡": "Cupid never misses twice ♡", "ANNIVERSAIRE.TXT": "BIRTHDAY.TXT", "OUI": "YES", "NON": "NO", "Ouiii ! Je le savais ♡": "Yayyy! I knew it ♡", "Alors c’est promis : plus de fous rires, plus de souvenirs, et un ami toujours de ton côté.": "Then it's a deal: more laughs, more memories, and a friend in your corner, always.", "Regarde-toi,": "Look at you,", "La preuve que le monde a reçu quelque chose de spécial le jour de ta naissance. Touche une vidéo pour l’écouter.": "Proof that the world got something special the day you were born. Tap a video to hear it.", "Reine en bleu": "Queen in blue", "Jolie en rose": "Pretty in pink", "L’héroïne": "Main character", "C’est pour toi": "This is for you", "Joyeux anniversaire,": "Happy Birthday,", "Merci d’être née, et d’être exactement qui tu es. Le monde est plus beau avec toi dedans.": "Thank you for being born, and for being exactly who you are. The world is better with you in it.", "Touche la note pour faire danser le cœur": "Tap the note to make the heart dance", "Touche la note pour danser encore": "Tap the note to dance again", "Joyeux anniversaire ♡": "Happy birthday ♡", "Ton ami pour toujours,": "Your friend always,", "Continuer": "Continue", "Faire un vœu": "Make a wish", "Suivre ton vœu": "Follow your wish", "Vers le jardin": "Into the garden", "La lettre secrète": "The secret letter", "Regarde-toi": "Look at you", "Une dernière chose": "One last thing", "Revoir depuis le début": "Watch it again", "Lumière": "Lights on", "L’arbre à cœurs": "A tree of hearts", "Fais un vœu": "Make a wish", "Parmi les étoiles": "Among the stars", "Ton jardin": "Your garden", "Pour toi": "For you", "Clique ici :)": "Click me :)", "Reine du jour": "Birthday Queen", "quelqu’un qui tient à toi": "someone who cares about you", "Joyeux anniversaire Kadi": "Happy Birthday Kadi", "Écris ton prénom": "Type your name", "Je souhaite...": "I wish...", "Envoyer mon vœu": "Send my wish", "Tirer la ficelle pour allumer la lampe": "Pull the string to turn on the lamp", "Fermer le mot": "Close note", "Fermer la lettre": "Close letter", "Faire danser le cœur sur la musique": "Make the heart dance to the music", "Couper la musique": "Mute music", "Remettre la musique": "Play music", "Vise la lettre et tire la flèche pour l’ouvrir. Appuie sur espace pour tirer.": "Aim at the letter and shoot the arrow to open it. Press space to shoot.", "Un petit chat qui tient un cœur": "A little cat holding a heart", "Un chat heureux": "A happy cat", "Passer en anglais": "Switch to French"};
+window.I18N_FR = Object.fromEntries(Object.entries(window.I18N_EN).map(([a,b]) => [b,a]));
+window.LANG = 'fr';
+try { const s = localStorage.getItem('kadi-lang'); if (s === 'en' || s === 'fr') window.LANG = s; } catch(e) {}
+window.T = s => (window.LANG === 'en' ? (window.I18N_EN[s] || s) : s);
+window.langHooks = [];
+window.applyLang = function(){
+  const map = window.LANG === 'en' ? window.I18N_EN : window.I18N_FR;
+  const w = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, { acceptNode: n => /^(SCRIPT|STYLE)$/.test(n.parentNode.nodeName) ? 2 : 1 });
+  let n; while ((n = w.nextNode())){ const v = n.nodeValue, k = v.trim(); if (k && map[k]) n.nodeValue = v.replace(k, map[k]); }
+  document.querySelectorAll('[placeholder],[aria-label]').forEach(el => ['placeholder','aria-label'].forEach(a => { const v = el.getAttribute(a); if (v && map[v]) el.setAttribute(a, map[v]); }));
+  if (map[document.title]) document.title = map[document.title];
+  document.documentElement.lang = window.LANG;
+  window.langHooks.forEach(f => { try { f(); } catch(e) {} });
+};
+</script>
+<script>
 /* ================= SETTINGS — edit these ================= */
 const CONFIG = {
   name: "Kadi",      // her name. Leave "" to let her type it on the first screen
   from: "Ubeyd",     // who it's from
   note: "Je ne suis pas toujours doué pour dire ces choses à voix haute, alors je les ai plantées ici. Tu es le genre d’amie qu’on demande dans ses prières : celle qui écoute, qui est là, qui rend les journées ordinaires précieuses. N’oublie jamais à quel point tu es rare. Quoi que t’apporte cette nouvelle année, je t’encouragerai plus fort que tout le monde. Tu mérites tout ce que ce monde a de plus beau.",
-  letterQuestion: "est-ce que je peux rester ton ami pour tous tes anniversaires à venir ?"
+  letterQuestion: "est-ce que je peux rester ton ami pour tous tes anniversaires à venir ?",
+  note_en: "I'm not always good at saying this out loud, so I planted it here instead. You are the kind of friend people pray for: the one who listens, who shows up, who makes ordinary days feel like something worth keeping. Never forget how rare you are. Whatever this new year brings, I'll be cheering for you louder than anyone. You deserve every beautiful thing this world has.",
+  letterQuestion_en: "can I stay your friend for every birthday to come?"
 };
 /* ========================================================= */
 </script>
@@ -1567,7 +1591,7 @@ window.__avgFreq = function(){
 $('soundBtn').addEventListener('click', () => {
   audio.muted = !audio.muted;
   if (!audio.muted && audio.paused) audio.play().catch(()=>{});
-  $('soundBtn').setAttribute('aria-label', audio.muted ? 'Play music' : 'Mute music');
+  $('soundBtn').setAttribute('aria-label', audio.muted ? T('Remettre la musique') : T('Couper la musique'));
   $('soundIcon').innerHTML = audio.muted
     ? '<path d="M11 5 6 9H2v6h4l5 4V5z"/><path d="m22 9-6 6M16 9l6 6"/>'
     : '<path d="M11 5 6 9H2v6h4l5 4V5z"/><path d="M15.5 8.5a5 5 0 0 1 0 7M19 5a10 10 0 0 1 0 14"/>';
@@ -1589,7 +1613,7 @@ let cur = -1, maxSeen = 0;
 const dotsEl = $('dots');
 SCENES.slice(1).forEach((s, i) => {
   const b = document.createElement('button');
-  b.className = 'dot'; b.type = 'button'; b.setAttribute('aria-label', s.label);
+  b.className = 'dot'; b.type = 'button'; b.setAttribute('aria-label', T(s.label));
   b.addEventListener('click', () => { if (i + 1 <= maxSeen) go(i + 1); });
   dotsEl.appendChild(b);
 });
@@ -1600,7 +1624,7 @@ function go(i){
   const el = $('s-' + SCENES[i].id);
   el.classList.add('active');
   $('nav').classList.toggle('off', i === 0);
-  $('chapterName').textContent = SCENES[i].label;
+  $('chapterName').textContent = T(SCENES[i].label);
   [...dotsEl.children].forEach((d, k) => { d.classList.toggle('now', k + 1 === i); d.classList.toggle('seen', k + 1 <= maxSeen); });
   hideNext();
   H[SCENES[i].id]?.enter?.();
@@ -1611,9 +1635,9 @@ function showNext(label, fn){ nextBtn.textContent = label; nextAction = fn || ((
 function hideNext(){ nextBtn.classList.add('wait'); }
 nextBtn.addEventListener('click', () => nextAction && nextAction());
 function setName(n){
-  NAME = (n || '').trim() || 'Reine du jour';
+  NAME = (n || '').trim() || T('Reine du jour');
   document.querySelectorAll('.nm').forEach(e => e.textContent = NAME);
-  document.querySelectorAll('.from').forEach(e => e.textContent = CONFIG.from || 'quelqu’un qui tient à toi');
+  document.querySelectorAll('.from').forEach(e => e.textContent = CONFIG.from || T('quelqu’un qui tient à toi'));
 }
 
 /* ================= 1. LAMP ================= */
@@ -1621,7 +1645,8 @@ function setName(n){
   const room = $('s-lamp'), handle = $('stringHandle'), path = $('stringPath'), ff = $('fireflies');
   let on = false, drag = false, sx = 0, sy = 0, dx = 0, dy = 0, moved = 0;
   const rand = (a,b) => Math.random()*(b-a)+a;
-  $('gateDate').textContent = new Date().toLocaleDateString('fr-FR', {weekday:'long', day:'numeric', month:'long'});
+  const setDate = () => { $('gateDate').textContent = new Date().toLocaleDateString(LANG === 'en' ? 'en-GB' : 'fr-FR', {weekday:'long', day:'numeric', month:'long'}); };
+  setDate(); langHooks.push(setDate);
   if (CONFIG.name) $('nameInput').value = CONFIG.name;
   function setLamp(v){
     on = v; room.classList.toggle('on', on);
@@ -1679,7 +1704,7 @@ function setName(n){
   }
   addEventListener('resize', () => { if (cur === 1) layout(); });
   function init(){
-    window.SEED_LINES = ['Clique ici :)', NAME + ' !'];
+    window.SEED_LINES = [T('Clique ici :)'), NAME + ' !'];
     const W = 1100, Hh = 680;
     tree = new Tree(canvas, W, Hh, {
       seed: { x: W/2 - 20, color: 'rgb(190, 26, 37)', scale: 2 },
@@ -1725,10 +1750,10 @@ function setName(n){
     await typewriter(txt);
     if (!narrow){ const tr = txt.getBoundingClientRect(); clock.style.top = (tr.bottom + 18) + 'px'; }
     tickClock(); clock.style.display = 'block'; clock.dataset.shown = 1; clockTimer = setInterval(tickClock, 1000);
-    showNext('Faire un vœu');
+    showNext(T('Faire un vœu'));
   }
   H.tree = {
-    enter(){ layout(); if (!started){ started = true; init(); run(); } else if (ran) showNext('Faire un vœu'); }
+    enter(){ layout(); if (!started){ started = true; init(); run(); } else if (ran) showNext(T('Faire un vœu')); }
   };
 })();
 
@@ -1762,12 +1787,12 @@ function setName(n){
         {duration: 1600, delay: 1300 + (letters.length - i) * 45, easing: 'cubic-bezier(.5,0,.2,1)', fill: 'forwards'});
     });
     $('wishSend').animate([{transform:'scale(1) rotate(0)'},{transform:'scale(1.6) rotate(72deg)', color:'#fae798'},{transform:'scale(1) rotate(144deg)'}], {duration: 900, delay: 1200});
-    setTimeout(() => { $('wishDone').textContent = 'Envoyé. Et si ça ne tient qu’à moi, il est déjà en train de se réaliser.'; $('wishDone').classList.add('show'); showNext('Suivre ton vœu'); }, 1300 + letters.length * 45 + 1500);
+    setTimeout(() => { $('wishDone').textContent = T('Envoyé. Et si ça ne tient qu’à moi, il est déjà en train de se réaliser.'); $('wishDone').classList.add('show'); showNext(T('Suivre ton vœu')); }, 1300 + letters.length * 45 + 1500);
   }
   $('wishSend').addEventListener('click', send);
   input.addEventListener('keydown', e => { if (e.key === 'Enter') send(); });
   H.wish = {
-    enter(){ size(); cancelAnimationFrame(raf); raf = requestAnimationFrame(draw); if (sent) showNext('Suivre ton vœu'); else setTimeout(() => innerWidth > 760 && input.focus({preventScroll:true}), 900); },
+    enter(){ size(); cancelAnimationFrame(raf); raf = requestAnimationFrame(draw); if (sent) showNext(T('Suivre ton vœu')); else setTimeout(() => innerWidth > 760 && input.focus({preventScroll:true}), 900); },
     leave(){ setTimeout(() => cancelAnimationFrame(raf), 1000); }
   };
 })();
@@ -1814,7 +1839,7 @@ function setName(n){
     raf = requestAnimationFrame(tick);
   }
   H.galaxy = {
-    enter(){ if (typeof THREE === 'undefined'){ showNext('Continuer'); return; } if (!ready) init(); cancelAnimationFrame(raf); tick(); setTimeout(() => cur === 3 && showNext('Vers le jardin'), 3800); },
+    enter(){ if (typeof THREE === 'undefined'){ showNext(T('Continuer')); return; } if (!ready) init(); cancelAnimationFrame(raf); tick(); setTimeout(() => cur === 3 && showNext(T('Vers le jardin')), 3800); },
     leave(){ setTimeout(() => cancelAnimationFrame(raf), 1000); }
   };
 })();
@@ -1845,9 +1870,11 @@ function setName(n){
   $('s-garden').addEventListener('click', e => { if (e.target.closest('.glass-btn, .glass-modal')) return; burst(e.clientX, e.clientY, 18); });
   $('bloomBtn').addEventListener('click', () => burst(innerWidth/2, innerHeight/2, 40));
   // note modal
-  const modal = $('loveModal'), tw = $('typewriter'); let ti = 0, tt = 0;
-  function type(){ if (ti < CONFIG.note.length){ tw.textContent += CONFIG.note.charAt(ti++); tt = setTimeout(type, reduce ? 0 : 38); } }
-  $('noteBtn').addEventListener('click', () => { modal.hidden = false; tw.textContent = ''; ti = 0; clearTimeout(tt); type(); burst(innerWidth/2, innerHeight/2, 25); $('closeModal').focus(); });
+  const modal = $('loveModal'), tw = $('typewriter'); let ti = 0, tt = 0, noteTxt = '';
+  const noteNow = () => LANG === 'en' ? CONFIG.note_en : CONFIG.note;
+  function type(){ if (ti < noteTxt.length){ tw.textContent += noteTxt.charAt(ti++); tt = setTimeout(type, reduce ? 0 : 38); } }
+  langHooks.push(() => { if (!modal.hidden){ clearTimeout(tt); noteTxt = noteNow(); tw.textContent = ''; ti = 0; type(); } });
+  $('noteBtn').addEventListener('click', () => { modal.hidden = false; noteTxt = noteNow(); tw.textContent = ''; ti = 0; clearTimeout(tt); type(); burst(innerWidth/2, innerHeight/2, 25); $('closeModal').focus(); });
   const close = () => { modal.hidden = true; clearTimeout(tt); };
   $('closeModal').addEventListener('click', close);
   modal.addEventListener('click', e => { if (e.target === modal) close(); });
@@ -1861,8 +1888,8 @@ function setName(n){
         const fl = [...ground.children]; fl[0].classList.add('animate');
         setTimeout(() => { fl[1].classList.add('animate'); fl[2].classList.add('animate'); let rem = fl.slice(3);
           const iv = setInterval(() => { if (!rem.length) return clearInterval(iv); rem.splice(Math.random()*rem.length|0, 1)[0].classList.add('animate'); }, 400); }, 2500);
-        setTimeout(() => cur === 4 && showNext('La lettre secrète'), 6500);
-      } else showNext('La lettre secrète');
+        setTimeout(() => cur === 4 && showNext(T('La lettre secrète')), 6500);
+      } else showNext(T('La lettre secrète'));
     },
     leave(){ setTimeout(() => cancelAnimationFrame(raf), 1000); }
   };
@@ -1872,8 +1899,8 @@ function setName(n){
 let letterReady = false;
 H.letter = {
   enter(){
-    if (!letterReady){ letterReady = true; requestAnimationFrame(() => window.initLetter(NAME, CONFIG.letterQuestion, () => showNext('Regarde-toi'))); }
-    else if (window.__letterWon) showNext('Regarde-toi');
+    if (!letterReady){ letterReady = true; requestAnimationFrame(() => window.initLetter(NAME, () => LANG === 'en' ? CONFIG.letterQuestion_en : CONFIG.letterQuestion, () => showNext(T('Regarde-toi')))); }
+    else if (window.__letterWon) showNext(T('Regarde-toi'));
   }
 };
 
@@ -1909,7 +1936,7 @@ H.letter = {
     c.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' '){ e.preventDefault(); toggle(); } });
   });
   H.moments = {
-    enter(){ load(); clips.forEach(c => c.querySelector('video').play().catch(()=>{})); setTimeout(() => cur === 6 && showNext('Une dernière chose'), nexted ? 0 : 3000); nexted = true; },
+    enter(){ load(); clips.forEach(c => c.querySelector('video').play().catch(()=>{})); setTimeout(() => cur === 6 && showNext(T('Une dernière chose')), nexted ? 0 : 3000); nexted = true; },
     leave(){ setLive(null); clips.forEach(c => c.querySelector('video').pause()); }
   };
 })();
@@ -1992,7 +2019,7 @@ H.letter = {
       angle.x += dt * .001 * .63; angle.z += dt * .001 * .39;
       camera.position.x = Math.sin(angle.x) * 2;
       camera.position.z = Math.min(Math.max(Math.cos(angle.z) * 4.5, 1.75), 6.5);
-      if (now - danceStart > 30000){ dancing = false; $('danceBtn').classList.remove('hide'); $('danceHint').textContent = 'Touche la note pour danser encore'; }
+      if (now - danceStart > 30000){ dancing = false; $('danceBtn').classList.remove('hide'); $('danceHint').textContent = T('Touche la note pour danser encore'); }
     } else {
       const tz = innerWidth < 600 ? 6.2 : 4.5;
       camera.position.x += (mouse.x - camera.position.x) * .04;
@@ -2010,27 +2037,33 @@ H.letter = {
   $('danceBtn').addEventListener('click', () => {
     if (audio.paused || audio.muted){ audio.muted = false; audio.play().catch(()=>{}); }
     dancing = true; danceStart = performance.now(); angle.x = angle.z = 0;
-    $('danceBtn').classList.add('hide'); $('danceHint').textContent = 'Joyeux anniversaire ♡';
+    $('danceBtn').classList.add('hide'); $('danceHint').textContent = T('Joyeux anniversaire ♡');
   });
   H.heart = {
     enter(){
       if (typeof THREE === 'undefined') return;
       if (!ready) init();
       cancelAnimationFrame(raf); last = 0; raf = requestAnimationFrame(loop);
-      setTimeout(() => cur === 7 && showNext('Revoir depuis le début', () => location.reload()), 6000);
+      setTimeout(() => cur === 7 && showNext(T('Revoir depuis le début'), () => location.reload()), 6000);
     },
     leave(){ setTimeout(() => cancelAnimationFrame(raf), 1000); }
   };
 })();
 
+const langBtn = $('langBtn');
+function paintLang(){ langBtn.innerHTML = '<span class="' + (LANG === 'fr' ? 'on' : '') + '">FR</span><span class="' + (LANG === 'en' ? 'on' : '') + '">EN</span>'; langBtn.setAttribute('aria-label', LANG === 'fr' ? 'Switch to English' : 'Passer en français'); }
+langBtn.addEventListener('click', () => { window.LANG = LANG === 'fr' ? 'en' : 'fr'; try { localStorage.setItem('kadi-lang', LANG); } catch(e) {} paintLang(); applyLang(); });
+langHooks.push(() => window.__letterRetitle && window.__letterRetitle());
+paintLang();
 setName(CONFIG.name);
 go(0);
+if (LANG !== 'fr') applyLang();
 })();
 </script>
 
 <script>
 window.initLetter = function(NAME, Q, onWin){
-const QTEXT = NAME + ', ' + Q + ' ♡';
+const QT = () => NAME + ', ' + Q() + ' ♡';
 const $ = (id) => document.getElementById(id);
 
 const aimStage      = $('l-aimStage');
@@ -2373,7 +2406,7 @@ function onMiss(){
   cancelAnimationFrame(rafId);
   flying = false; drawn = 0;
   arrow.classList.remove('is-on');
-  hintText.textContent = MISS_HINTS[Math.min(missCount, MISS_HINTS.length - 1)];
+  hintText.textContent = T(MISS_HINTS[Math.min(missCount, MISS_HINTS.length - 1)]);
   missCount++;
   if (missCount >= 2) target.classList.add('is-pulse');
   setTimeout(() => {
@@ -2389,7 +2422,7 @@ function resetAim(){
   cancelAnimationFrame(drawRAF); drawRAF = 0;
   flying = false; aiming = false; missCount = 0; drawn = 0;
   target.classList.remove('is-hit', 'is-pulse');
-  hintText.textContent = DEFAULT_HINT;
+  hintText.textContent = T(DEFAULT_HINT);
   const m = metrics();
   angle = restAngle(m);
   renderAim(m);
@@ -2467,7 +2500,7 @@ noBtn.addEventListener('focus', dodge);
 
 function sayYes(){
   catState = 'happy';
-  title.textContent = 'Ouiii ! Je le savais ♡';
+  title.textContent = T('Ouiii ! Je le savais ♡');
   window.__letterWon = true; setTimeout(onWin, 1500);
   drawSprite(catCanvas, CAT_HAPPY);
   catCanvas.setAttribute('aria-label', 'A happy cat with a bow');
@@ -2598,7 +2631,7 @@ function blink(){
 
 function reset(){
   catState = 'idle';
-  title.textContent = QTEXT;
+  title.textContent = QT();
   drawSprite(catCanvas, CAT_IDLE);
   catCanvas.setAttribute('aria-label', 'A little cat holding a heart');
   buttons.hidden = false;
@@ -2619,7 +2652,7 @@ function reset(){
 
 drawSprite(catCanvas, CAT_IDLE);
 spawnConfetti(reduceMotion ? 0.5 : 1);
-title.textContent = QTEXT;
+title.textContent = QT();
 
 if (!reduceMotion){
   window.addEventListener('pointermove', onParallax, { passive: true });
@@ -2644,6 +2677,7 @@ if (new URLSearchParams(location.search).has('record')){
     els: { noBtn, yesBtn, content, aimStage, win, nock: nockEl },
   };
 }
+window.__letterRetitle = () => { title.textContent = window.__letterWon ? T('Ouiii ! Je le savais ♡') : QT(); };
 };
 </script>
 
